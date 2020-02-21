@@ -112,10 +112,13 @@ def GetRandom3DMomentumVector(momentumMag) :
 ######################################################################################################
 
 
-def Get3DMomentumVectorListWithAngles(momentumMagList, theta0YZList, delta0YZList, theta0XZList, delta0XZList) :
+def Get3DMomentumVectorListWithAngles(momentumMagList, angles) :
     momentumVecList = []
-    for momentumMag, theta0YZ, delta0YZ, theta0XZ, delta0XZ in zip(momentumMagList, theta0YZList, delta0YZList, theta0XZList, delta0XZList) :
-        momentumVec = Get3DMomentumVectorWithAngles(momentumMag, theta0YZ, delta0YZ, theta0XZ, delta0XZ)
+    zipped_vals = zip(momentumMagList, angles.theta0YZList, angles.deltaTheta0YZList,
+        angles.theta0XZList, angles.deltaTheta0XZList)
+    for momentumMag, theta0YZ, delta0YZ, theta0XZ, delta0XZ in zipped_vals :
+        momentumVec = Get3DMomentumVectorWithAngles(momentumMag, theta0YZ,
+            delta0YZ, theta0XZ, delta0XZ)
         momentumVecList.append(momentumVec)
     return momentumVecList
 
