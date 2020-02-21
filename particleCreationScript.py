@@ -55,11 +55,8 @@ def generate(args):
     # Distributions to assign the vertex and particle momentum magnitudes
     # Uniform = 0, Gaussian = 1, Histogram = 2 (momentum only)
     # Momentum lists must be equal in length to the particleList
-    vertexDist = 0
-    vertexDistMean = [0, 304, 347]           # [x, y, z]   #DUNE FD [0, 0, 600]         #ProtoDUNE [0, 304, 347]
-    vertexDistStdDev = [375, 299, 347]     # [x, y, z]     #DUNE FD [360, 600, 600]     #ProtoDUNE [375, 299, 347]
-
-    vertexSettings = vertex.VertexSettings(vertexDist, vertexDistMean, vertexDistStdDev)
+    vertex_settings_dict = vertex.ProtoDUNESPSettings
+    vertexSettings = vertex.VertexSettings(vertex_settings_dict)
 
     momentumDist = [1]                 
     momentumDistMean = [1]         #DUNEFD 2.5 for Muons, 1 for Protons (Uniform)  #ProtoDUNE 1 (Gaussian)
