@@ -32,9 +32,6 @@ def generate(args):
     #Events to be created
     numberOfEvents = args.num_events
 
-    # OutputFileName
-    eventsFileName = args.events_filename
-
     # PDG codes of particles to create
     particleList = [args.pid]
 
@@ -66,42 +63,42 @@ def generate(args):
 
     # CODE IMPLEMENTATION
 
-    # Open HEP event file
-    eventFile = open(eventsFileName, 'w') 
+    with open(args.events_filename, 'w') as event_file:
+        for i, event in enumerate(range(numberOfEvents)):
+            interactionVertex = vertex.GetVertex(vertexSettings)
 
-    eventNumber = 0
-    for event in range(numberOfEvents) :
-        # Get vertex  
-        interactionVertex = vertex.GetVertex(vertexSettings)
+            # Get particle momentum magnitude list    
+            particleMomentumMagList = []
+            for momentumSettings in particleMomentumSettings :
+                particleMomentumMagList.append(momentum.GetMomentumMag(momentumSettings))
 
-        # Get particle momentum magnitude list    
-        particleMomentumMagList = []
-        for momentumSettings in particleMomentumSettings :
-            particleMomentumMagList.append(momentum.GetMomentumMag(momentumSettings))
+            # Get particle energy list
+            particleEnergyList = []
+            for PDG, p in zip(particleList, particleMomentumMagList) :
+                particleEnergyList.append(math.sqrt(math.pow(p, 2) + math.pow(PDGToMassDict[PDG], 2)))
 
-        # Get particle energy list
-        particleEnergyList = []
-        for PDG, p in zip(particleList, particleMomentumMagList) :
-            particleEnergyList.append(math.sqrt(math.pow(p, 2) + math.pow(PDGToMassDict[PDG], 2)))
+            # Get momentum vectors of particles 
+            # particleMomentumVectorList = momentum.GetRandom3DMomentumVectorList(particleMomentumMagList)
+            particleMomentumVectorList = momentum.Get3DMomentumVectorListWithAngles(particleMomentumMagList, angles)
+            #particleMomentumVectorList = momentum.Get3DMomentumVectorsWithRandomOpeningAngle(particleMomentumMagList)
 
-        # Get momentum vectors of particles 
-        # particleMomentumVectorList = momentum.GetRandom3DMomentumVectorList(particleMomentumMagList)
-        particleMomentumVectorList = momentum.Get3DMomentumVectorListWithAngles(particleMomentumMagList, angles)
-        #particleMomentumVectorList = momentum.Get3DMomentumVectorsWithRandomOpeningAngle(particleMomentumMagList)
+            # Write event as HEP event format
+            firstLine = str(i) + " " + str(len(particleList))
+            event_file.write(firstLine)
+            event_file.write("\n")
 
-        # Write event as HEP event format
-        firstLine = str(eventNumber) + " " + str(len(particleList))
-        eventFile.write(firstLine)
-        eventFile.write("\n")
-
-
-        for PDG, momentumVec, energy in zip(particleList, particleMomentumVectorList, particleEnergyList) :
-        
-           secondLine = "1 " + str(PDG) + " 0 0 0 0 " + str(momentumVec[0]) + " " + str(momentumVec[1]) + " " + str(momentumVec[2]) + " " + str(energy) + " " + str(PDGToMassDict[PDG]) + " " + str(interactionVertex[0]) + " " + str(interactionVertex[1]) + " " + str(interactionVertex[2]) + " " + "0.0" 
-           eventFile.write(secondLine)
-           eventFile.write("\n")
-
-        eventNumber += 1
+            zipped_lists = zip(particleList, particleMomentumVectorList, particleEnergyList)
+            for pdg, momentumVec, energy in zipped_lists:
+                mom_str = ""
+                for m in momentumVec:
+                    mom_str += "{:f} ".format(m)
+                vertex_str = ""
+                for v in interactionVertex:
+                    vertex_str += "{:f} ".format(v)
+                second_line = "1 {} 0 0 0 0 {}{:f} {} {} 0.0".format(
+                    pdg, mom_str, energy, PDGToMassDict[pdg], vertex_str)
+                event_file.write(second_line)
+                event_file.write("\n")
 
 if __name__ == "__main__":
     import argparse
