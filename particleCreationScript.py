@@ -58,15 +58,11 @@ def generate(args):
     vertex_settings_dict = vertex.ProtoDUNESPSettings
     vertexSettings = vertex.VertexSettings(vertex_settings_dict)
 
-    momentumDist = [1]                 
-    momentumDistMean = [1]         #DUNEFD 2.5 for Muons, 1 for Protons (Uniform)  #ProtoDUNE 1 (Gaussian)
-    momentumDistStdDev = [1]       #DUNEFD 2.5 for Muons, 1 for Protons (Uniform)  #ProtoDUNE 0.05 (Gaussian)
-    momentumDistHistName = [""] 
-
+    momentum_settings_list = [momentum.ProtoDUNESPSettings]
+    zipped_settings = zip(particleList, momentum_settings_list)
     particleMomentumSettings = []
-    for dist, mean, stdDev, hist in zip(momentumDist, momentumDistMean, momentumDistStdDev, momentumDistHistName) :
-        particleMomentumSettings.append(momentum.MomentumSettings(dist, mean, stdDev, hist))
-
+    for pid, momentum_settings_dict in zipped_settings:
+        particleMomentumSettings.append(momentum.MomentumSettings(pid, momentum_settings_dict))
 
     # CODE IMPLEMENTATION
 

@@ -6,6 +6,7 @@ Created on Mon Jan  6 19:52:53 2020
 @author: isobelmawby
 """
 
+import exceptions
 import numpy as np
 
 # vertex_dist: Uniform = 0, Gaussian = 1, Histogram = 2 (momentum only)
@@ -31,6 +32,8 @@ class VertexSettings :
 def GetVertex(vertexSettings) :
     if vertexSettings.dist == 0 :
         vertex = GetUniformDistVertex(vertexSettings)
+    else:
+        raise exceptions.NotImplementedError, "Unknown distribution: {vertexSettings.dist}"
 
     return vertex
 

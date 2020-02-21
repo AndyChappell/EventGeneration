@@ -9,14 +9,26 @@ Created on Mon Jan  6 20:10:51 2020
 import numpy as np
 import math
 
+DUNEFDSettings = {
+    "p_dist": 0,
+    "p_dist_mean": {13: 2.5, 2212: 1},
+    "p_dist_sd": {13: 2.5, 2212: 1},
+    "p_dist_histname": "" 
+}
+
+ProtoDUNESPSettings = {
+    "p_dist": 1,
+    "p_dist_mean": {13: 1, 2212: 1},
+    "p_dist_sd": {13: 1, 2212: 1},  # 0.05
+    "p_dist_histname": "" 
+}
+
 class MomentumSettings :
-    
-    def __init__(self, distributionList, meanList, stdDevList, distHistNameList) :
-        
-        self.dist = distributionList
-        self.mean = meanList
-        self.stdDev = stdDevList
-        self.distHistName = distHistNameList
+    def __init__(self, pid, settings_dict) : 
+        self.dist = settings_dict["p_dist"]
+        self.mean = settings_dict["p_dist_mean"][pid]
+        self.stdDev = settings_dict["p_dist_sd"][pid]
+        self.distHistName = settings_dict["p_dist_histname"] 
         
 ######################################################################################################
 
