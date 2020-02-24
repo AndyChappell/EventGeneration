@@ -17,7 +17,7 @@ import math
 import numpy as np
 
 # Masses in GeV
-PDGToMassDict = {13 : 0.106, 2212 : 0.938}
+PDGToMassDict = {11: 5.11e-4, 13 : 0.106, 2212 : 0.938}
 
 class Angles:
     def __init__(self):
@@ -28,9 +28,6 @@ class Angles:
 
 def generate(args):
     # SETTTINGS
-
-    #Events to be created
-    numberOfEvents = args.num_events
 
     # PDG codes of particles to create
     particleList = [args.pid]
@@ -64,7 +61,7 @@ def generate(args):
     # CODE IMPLEMENTATION
 
     with open(args.events_filename, 'w') as event_file:
-        for i, event in enumerate(range(numberOfEvents)):
+        for i, event in enumerate(range(args.num_events)):
             interactionVertex = vertex.GetVertex(vertexSettings)
 
             # Get particle momentum magnitude list    

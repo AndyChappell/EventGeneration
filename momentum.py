@@ -11,15 +11,15 @@ import math
 
 DUNEFDSettings = {
     "p_dist": 0,
-    "p_dist_mean": {13: 2.5, 2212: 1},
-    "p_dist_sd": {13: 2.5, 2212: 1},
+    "p_dist_mean": {11: 0.1, 13: 2.5, 2212: 1},
+    "p_dist_sd": {11: 0.1, 13: 2.5, 2212: 1},
     "p_dist_histname": "" 
 }
 
 ProtoDUNESPSettings = {
     "p_dist": 1,
-    "p_dist_mean": {13: 1, 2212: 1},
-    "p_dist_sd": {13: 1, 2212: 1},  # 0.05
+    "p_dist_mean": {11: 0.1, 13: 1, 2212: 1},
+    "p_dist_sd": {11: 0.1, 13: 1, 2212: 1},  # 0.05
     "p_dist_histname": "" 
 }
 
