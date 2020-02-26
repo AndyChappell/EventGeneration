@@ -92,7 +92,7 @@ def generate(args):
                 vertex_str = ""
                 for v in interactionVertex:
                     vertex_str += "{:f} ".format(v)
-                second_line = "1 {} 0 0 0 0 {}{:f} {} {} 0.0".format(
+                second_line = "1 {} 0 0 0 0 {}{:f} {} {}0.0".format(
                     pdg, mom_str, energy, PDGToMassDict[pdg], vertex_str)
                 event_file.write(second_line)
                 event_file.write("\n")
